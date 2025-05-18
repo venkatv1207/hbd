@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🎂 Happy Birthday</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: #ffe0f0;
+        font-family: "Segoe UI", sans-serif;
+        overflow: hidden;
+        text-align: center;
+        color: #333;
+      }
+
+      .title {
+        font-size: 2.5rem;
+        margin-top: 20px;
+        animation: glowText 1.2s infinite alternate;
+      }
+
+      @keyframes glowText {
+        from {
+          color: #ff4081;
+          text-shadow: 0 0 10px #ff4081;
+        }
+        to {
+          color: #d500f9;
+          text-shadow: 0 0 20px #d500f9;
+        }
+      }
+
+      .cake-container {
+        margin-top: 40px;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .slice {
+        width: 40px;
+        height: 60px;
+        background: #ff8a65;
+        border-radius: 10px 10px 0 0;
+        position: relative;
+      }
+
+      .candle {
+        width: 8px;
+        height: 25px;
+        background: #fff;
+        margin: 0 auto;
+        margin-top: -15px;
+        position: relative;
+      }
+
+      .flame {
+        width: 12px;
+        height: 12px;
+        background: orange;
+        border-radius: 50%;
+        position: absolute;
+        top: -12px;
+        left: -2px;
+        display: none;
+        animation: flicker 0.4s infinite alternate;
+      }
+
+      @keyframes flicker {
+        from {
+          transform: scale(1);
+          opacity: 1;
+        }
+        to {
+          transform: scale(1.2);
+          opacity: 0.6;
+        }
+      }
+
+      .scratch-area {
+        margin: 30px auto;
+        width: 120px;
+        height: 120px;
+        background: #ffd740;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 0 10px #fbc02d;
+        transition: transform 0.3s;
+      }
+
+      .scratch-area:hover {
+        transform: scale(1.05);
+      }
+
+      .birthday-message {
+        font-size: 2rem;
+        margin-top: 30px;
+        color: #d81b60;
+        display: none;
+        animation: glowMsg 1s infinite alternate;
+      }
+
+      @keyframes glowMsg {
+        from {
+          text-shadow: 0 0 10px #ff4081;
+        }
+        to {
+          text-shadow: 0 0 20px #ff80ab;
+        }
+      }
+
+      .balloon {
+        position: absolute;
+        width: 30px;
+        height: 40px;
+        background-color: red;
+        border-radius: 50% 50% 50% 50%;
+        animation: floatUp 5s ease-in-out forwards;
+      }
+
+      @keyframes floatUp {
+        0% {
+          transform: translateY(100vh);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(-200px);
+          opacity: 1;
+        }
+      }
+
+      .confetti {
+        width: 10px;
+        height: 10px;
+        position: absolute;
+        background: yellow;
+        animation: confettiFall 3s linear forwards;
+      }
+
+      @keyframes confettiFall {
+        from {
+          transform: translateY(-100px) rotate(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateY(800px) rotate(360deg);
+          opacity: 0;
+        }
+      }
+      #birthday-img {
+  opacity: 0;
+  transform: scale(0.5) translateY(100px);
+  transition: all 1s ease;
+  display: block;
+  margin: 30px auto 0;
+  max-width: 300px;
+  border-radius: 10px;
+}
+
+#birthday-img.show {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+    </style>
+  </head>
+  <body>
+    <div class="title">🎉 Tap the Match to Light the Cake! 🎂</div>
+
+    <div class="cake-container">
+      <div class="slice">
+        <div class="candle"><div class="flame"></div></div>
+      </div>
+      <div class="slice">
+        <div class="candle"><div class="flame"></div></div>
+      </div>
+      <div class="slice">
+        <div class="candle"><div class="flame"></div></div>
+      </div>
+      <div class="slice">
+        <div class="candle"><div class="flame"></div></div>
+      </div>
+      <div class="slice">
+        <div class="candle"><div class="flame"></div></div>
+      </div>
+    </div>
+
+    <div class="scratch-area" id="match">🎇 Match candles</div>
+
+    <div class="birthday-message" id="message">
+      🎂 Happy Birthday! Sahith Bhai🎁
+    </div>
+
+    <audio id="bg-music" autoplay loop muted>
+      <source src="./padaiyappa_bgm.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+    <img
+      id="birthday-img"
+      
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRWJEAef5PDd1NpUrHRoYR2TnH6W9xnsmi0w&s"
+      alt="Birthday Visual"
+    />
+
+    <script>
+      const flames = document.querySelectorAll(".flame");
+      const message = document.getElementById("message");
+      const match = document.getElementById("match");
+      const music = document.getElementById("bg-music");
+      const birthdayImg = document.getElementById("birthday-img");
+      
+
+      function createBalloon() {
+        const balloon = document.createElement("div");
+        balloon.classList.add("balloon");
+        balloon.style.left = Math.random() * window.innerWidth + "px";
+        balloon.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 60%)`;
+        document.body.appendChild(balloon);
+        setTimeout(() => balloon.remove(), 5000);
+      }
+
+      function createConfetti() {
+        for (let i = 0; i < 40; i++) {
+          const confetti = document.createElement("div");
+          confetti.classList.add("confetti");
+          confetti.style.backgroundColor = `hsl(${
+            Math.random() * 360
+          }, 100%, 60%)`;
+          confetti.style.left = Math.random() * window.innerWidth + "px";
+          confetti.style.top = Math.random() * 100 + "px";
+          document.body.appendChild(confetti);
+          setTimeout(() => confetti.remove(), 3000);
+        }
+      }
+
+      match.addEventListener("click", () => {
+        flames.forEach((f) => (f.style.display = "block"));
+        message.style.display = "block";
+        try {
+          music.muted = false;
+          music.play();
+        } catch {}
+        birthdayImg.classList.add("show");
+        for (let i = 0; i < 30; i++) {
+          setTimeout(createBalloon, i * 150);
+        }
+        setTimeout(createConfetti, 1000);
+      });
+      
+
+      // Show and animate the image
+      
+    </script>
+  </body>
+</html>
