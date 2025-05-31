@@ -10,9 +10,57 @@
         padding: 0;
         background: #ffe0f0;
         font-family: "Segoe UI", sans-serif;
-        overflow: hidden;
+        overflow: scroll;
         text-align: center;
         color: #333;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+      }
+
+      input[type="text"] {
+        padding: 8px 10px;
+        font-size: 1rem;
+        border: 2px solid #d81b60;
+        border-radius: 8px;
+        width: 60vw;
+        max-width: 300px;
+        margin-top: 10px;
+        outline: none;
+      }
+
+      #btn {
+        margin-top: 10px;
+        padding: 8px 14px;
+        font-size: 1rem;
+        background: #ff4081;
+        border: none;
+        border-radius: 6px;
+        color: white;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      #btn:hover {
+        background: #d81b60;
+      }
+
+      #birthday-img {
+        max-width: 60vw;
+        max-height: 30vh;
+        height: auto;
+        margin-top: 10px;
+        transition: all 1s ease;
+        border-radius: 10px;
+        opacity: 0;
+        transform: scale(0.5) translateY(100px);
+      }
+
+      #birthday-img.show {
+        opacity: 1;
+        transform: scale(1) translateY(0);
       }
 
       .title {
@@ -41,7 +89,7 @@
 
       .slice {
         width: 40px;
-        height: 60px;
+        height: 50px;
         background: #ff8a65;
         border-radius: 10px 10px 0 0;
         position: relative;
@@ -49,7 +97,7 @@
 
       .candle {
         width: 8px;
-        height: 25px;
+        height: 20px;
         background: #fff;
         margin: 0 auto;
         margin-top: -15px;
@@ -80,7 +128,7 @@
       }
 
       .scratch-area {
-        margin: 30px auto;
+        margin: 20px auto;
         width: 120px;
         height: 120px;
         background: #ffd740;
@@ -154,20 +202,108 @@
         }
       }
       #birthday-img {
-  opacity: 0;
-  transform: scale(0.5) translateY(100px);
-  transition: all 1s ease;
-  display: block;
-  margin: 30px auto 0;
-  max-width: 300px;
-  border-radius: 10px;
-}
+        opacity: 0;
+        transform: scale(0.5) translateY(100px);
+        transition: all 1s ease;
+        display: block;
+        margin: 30px auto 0;
+        max-width: 300px;
+        border-radius: 10px;
+      }
 
-#birthday-img.show {
-  opacity: 1;
-  transform: scale(1) translateY(0);
-}
+      #birthday-img.show {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+      /*     here new code started yaar */
+      /* Make text and elements adapt to screen size */
+      .title {
+        font-size: clamp(1.5rem, 4vw, 3rem);
+        padding: 0 10px;
+      }
 
+      /* Responsive cake container */
+      .cake-container {
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 5vh auto;
+        max-width: 90%;
+      }
+
+      .slice {
+        width: clamp(30px, 8vw, 50px);
+        height: clamp(50px, 10vw, 70px);
+      }
+
+      /* Candle size based on slice */
+      .candle {
+        width: 1vw;
+        min-width: 6px;
+        height: 3vh;
+        min-height: 20px;
+      }
+
+      .flame {
+        width: 1.5vw;
+        min-width: 10px;
+        height: 1.5vw;
+        min-height: 10px;
+        top: -1.5vw;
+      }
+
+      /* Scratch area responsive */
+      .scratch-area {
+        width: 30vw;
+        max-width: 150px;
+        height: 30vw;
+        max-height: 150px;
+        font-size: clamp(0.8rem, 2.5vw, 1.2rem);
+      }
+
+      /* Message responsiveness */
+      .birthday-message {
+        font-size: clamp(1.5rem, 4vw, 2.5rem);
+        margin: 2vh auto;
+        padding: 0 10px;
+        word-wrap: break-word;
+      }
+
+      /* Image responsiveness */
+      #birthday-img {
+        max-width: 80vw;
+        height: auto;
+        margin: 20px auto 0;
+      }
+
+      /* Balloons and Confetti positioning */
+      .balloon,
+      .confetti {
+        z-index: 999;
+      }
+
+      /* Media Queries for very small screens */
+      @media (max-width: 480px) {
+        .cake-container {
+          flex-direction: row;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .slice {
+          margin: 2px;
+        }
+
+        .scratch-area {
+          font-size: 0.9rem;
+        }
+      }
+
+      /* Optional: adjust audio visibility for mobile (if needed) */
+      @media (max-width: 768px) {
+        audio {
+          display: none;
+        }
+      }
     </style>
   </head>
   <body>
@@ -192,7 +328,10 @@
     </div>
 
     <div class="scratch-area" id="match">🎇 Match candles</div>
-
+    <div>
+      <input type="text" placeholder="😁🤩enter birthday wish...😁😆" />
+      <button id="btn">Wish yaar</button>
+    </div>
     <div class="birthday-message" id="message">
       🎂 Happy Birthday! Sahith Bhai🎁
     </div>
@@ -203,9 +342,9 @@
     </audio>
     <img
       id="birthday-img"
-      
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRWJEAef5PDd1NpUrHRoYR2TnH6W9xnsmi0w&s"
+      src="./sahith.jpg"
       alt="Birthday Visual"
+      width="170px"
     />
 
     <script>
@@ -214,7 +353,15 @@
       const match = document.getElementById("match");
       const music = document.getElementById("bg-music");
       const birthdayImg = document.getElementById("birthday-img");
-      
+
+      const input = document.querySelector("input");
+      const button = document.getElementById("btn");
+      const wishkaarooyaar = () => {
+        let wishes = input.value;
+        const wishyaar = new SpeechSynthesisUtterance(wishes);
+        window.speechSynthesis.speak(wishyaar);
+      };
+      btn.addEventListener("click", wishkaarooyaar);
 
       function createBalloon() {
         const balloon = document.createElement("div");
@@ -252,10 +399,8 @@
         }
         setTimeout(createConfetti, 1000);
       });
-      
 
       // Show and animate the image
-      
     </script>
   </body>
 </html>
